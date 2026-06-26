@@ -36,6 +36,11 @@ import {
   ChevronUp
 } from 'lucide-react';
 
+import portraitImg from './assets/images/fares_portrait_1782354200943.jpg';
+import aiDashboardImg from './assets/images/ai_dashboard_mockup_1782354214660.jpg';
+import brandingImg from './assets/images/branding_mockup_1782354268573.jpg';
+import mobileAppImg from './assets/images/mobile_app_mockup_1782354283892.jpg';
+
 // Interfaces
 interface Project {
   id: string;
@@ -468,10 +473,10 @@ export default function App() {
 
   // Asset paths (from generated images)
   const assets = {
-    portrait: '/src/assets/images/fares_portrait_1782354200943.jpg',
-    aiDashboard: '/src/assets/images/ai_dashboard_mockup_1782354214660.jpg',
-    branding: '/src/assets/images/branding_mockup_1782354268573.jpg',
-    mobileApp: '/src/assets/images/mobile_app_mockup_1782354283892.jpg',
+    portrait: portraitImg,
+    aiDashboard: aiDashboardImg,
+    branding: brandingImg,
+    mobileApp: mobileAppImg,
   };
 
   // Synchronize document dir and lang attributes
@@ -482,18 +487,17 @@ export default function App() {
 
   // Preloader Counter Effect
   useEffect(() => {
+    if (loadingProgress >= 100) {
+      const timeout = setTimeout(() => setLoading(false), 550);
+      return () => clearTimeout(timeout);
+    }
+
     const timer = setInterval(() => {
-      setLoadingProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setTimeout(() => setLoading(false), 550);
-          return 100;
-        }
-        return prev + Math.floor(Math.random() * 8) + 4;
-      });
+      setLoadingProgress((prev) => Math.min(prev + Math.floor(Math.random() * 8) + 4, 100));
     }, 60);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [loadingProgress]);
 
   // Trigger counters after preloader completes
   useEffect(() => {
